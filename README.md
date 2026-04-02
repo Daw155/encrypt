@@ -1,6 +1,6 @@
-## Group #3
+#### Group #3
 
-## Members:
+## Members
 Dawid Wasniowski (dawidw2)
 Will Blum (wblum2)
 David Augustynski(daugu)
