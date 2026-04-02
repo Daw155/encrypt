@@ -6,9 +6,7 @@ Will Blum (wblum2)
 David Augustynski(daugu)
 
 ## Project Introduction
-Our project is to create a Rust application that allows users to encrypt and decrypt text files using multiple simple encryption algorithms. It’ll feature a frontend UI that will allow for user input, and display the encrypted and decrypted text. 
-
-The goal of this project is to explore different encryption algorithms while gaining more experience with Rust, and file handling. We chose this project because it combines both practical programming with some technical aspects, while allowing us to explore data security and processing.
+Our project is to create a Rust application that allows users to encrypt and decrypt text files using multiple simple encryption algorithms. It’ll feature a frontend UI that will allow for user input, and display the encrypted and decrypted text. The goal of this project is to explore different encryption algorithms while gaining more experience with Rust, and file handling. We chose this project because it combines both practical programming with some technical aspects, while allowing us to explore data security and processing.
 
 ## Possible Challenges
 File reading, learning new algorithms, learning how to package our code, figuring out how to reverse our encryptions to be able to decrypt our encryption as well, learning how to create a UI.
@@ -32,4 +30,6 @@ File reading, learning new algorithms, learning how to package our code, figurin
 
 ## Checkpoint Goals
 By checkpoint #1: Set up file reader and finish 2 of the encryption algorithms
+
 By checkpoint #2: Finish the rest of the 3  encryption algorithms
+
