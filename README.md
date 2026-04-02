@@ -1,4 +1,4 @@
-#### Group #3
+# Group #3
 
 ## Members
 Dawid Wasniowski (dawidw2)
