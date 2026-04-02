@@ -5,7 +5,7 @@ Dawid Wasniowski (dawidw2)
 Will Blum (wblum2)
 David Augustynski(daugu)
 
-##Project Introduction
+## Project Introduction
 Our project is to create a Rust application that allows users to encrypt and decrypt text files using multiple simple encryption algorithms. It’ll feature a frontend UI that will allow for user input, and display the encrypted and decrypted text. 
 
 The goal of this project is to explore different encryption algorithms while gaining more experience with Rust, and file handling. We chose this project because it combines both practical programming with some technical aspects, while allowing us to explore data security and processing.
