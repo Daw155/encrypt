@@ -22,7 +22,7 @@ File reading, learning new algorithms, learning how to package our code, figurin
 - Encryption Struct with 5 different methods (encryption algorithms)
 - Caesar Cipher: Shifts characters by any amount
 - Vigenere Cipher: Uses Caesar Ciphers of different shift amounts based on the key
-- Substitution Cipher: Replaces each letter with another letter based on a mapping
+- Columnar Cipher: Arranges text in a grid and reads off columns in a key-defined order
 - XOR Cipher: Applies a bitwise XOR operation to each character in the string
 - Rail Wise Cipher: Encrypts a message with a zig-zag pattern with a set height
 - Package our encryption class as a crate
@@ -31,5 +31,5 @@ File reading, learning new algorithms, learning how to package our code, figurin
 ## Checkpoint Goals
 By checkpoint #1: Set up file reader and finish 2 of the encryption algorithms
 
-By checkpoint #2: Finish the rest of the 3  encryption algorithms
+By checkpoint #2: Finish the rest of the 3 encryption algorithms
 
