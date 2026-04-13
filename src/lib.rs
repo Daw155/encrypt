@@ -10,7 +10,29 @@ pub fn read_file(file_name: String) -> String {
 
 
 pub fn caesar_cipher(str: String, shift: i32, decrypt: bool) -> String {
-    todo!()
+    let mut result = String::new();
+    let mut actual_shift = shift % 26;
+    if actual_shift < 0 {
+        actual_shift += 26;
+    }
+    if decrypt {
+        actual_shift = (26 - actual_shift) % 26;
+    }
+    for c in str.chars() {
+        if c.is_ascii_lowercase() {
+            let offset = c as u8 - ('a' as u8);
+            let new_offset = (offset + actual_shift as u8) % 26;
+            result.push((('a' as u8) + new_offset) as char);
+        } else if c.is_ascii_uppercase() {
+            let offset = c as u8 - ('A' as u8);
+            let new_offset = (offset + actual_shift as u8) % 26;
+            result.push((('A' as u8) + new_offset) as char);
+        } else {
+            result.push(c);
+        }
+    }
+    
+    return result;
 }
 
 pub fn vigenere_cipher(str: String, key: String, decrypt: bool) -> String { 
