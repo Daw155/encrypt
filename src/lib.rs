@@ -36,7 +36,33 @@ pub fn caesar_cipher(str: String, shift: i32, decrypt: bool) -> String {
 }
 
 pub fn vigenere_cipher(str: String, key: String, decrypt: bool) -> String { 
-    todo!()
+    let mut result = String::new();
+    let lowercase_key = key.to_lowercase();
+    let key_chars : Vec<char> = lowercase_key.chars().collect();
+    let mut key_index = 0;
+    for c in str.chars() {
+        if c.is_ascii_alphabetic() {
+            let shift = (key_chars[key_index % key_chars.len()] as i32) - ('a' as i32);
+            let mut actual_shift = shift % 26;
+            if decrypt {
+                actual_shift = (26 - actual_shift) % 26;
+            }
+            if c.is_ascii_lowercase() {
+                let offset = c as u8 - ('a' as u8);
+                let new_offset = (offset + actual_shift as u8) % 26;
+                result.push((('a' as u8) + new_offset) as char)
+            } else {
+                let offset = c as u8 - ('A' as u8);
+                let new_offset = (offset + actual_shift as u8) % 26;
+                result.push((('A' as u8) + new_offset) as char)
+            }
+            key_index += 1;
+        } else {
+            result.push(c);
+        }
+    }
+
+    return result;
 }
 
 pub fn columnar_cipher(str: String, key: Vec<usize>, decrypt: bool) -> String {
