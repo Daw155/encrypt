@@ -1,15 +1,5 @@
-use std::fs::File;
-use std::io::Read;
-
-pub fn read_file(file_name: String) -> String {
-    let mut file = File::open(file_name).expect("File not found.");
-    let mut contents = String::new();
-    file.read_to_string(&mut contents).expect("Failed to read file.");
-    return contents;
-}
-
-
-pub fn caesar_cipher(str: String, shift: i32, decrypt: bool) -> String {
+pub fn caesar_cipher(str: String, key: String, decrypt: bool) -> String {
+    let shift = key.parse::<i32>().unwrap();
     let mut result = String::new();
     let mut actual_shift = shift % 26;
     if actual_shift < 0 {
@@ -65,14 +55,23 @@ pub fn vigenere_cipher(str: String, key: String, decrypt: bool) -> String {
     return result;
 }
 
-pub fn columnar_cipher(str: String, key: Vec<usize>, decrypt: bool) -> String {
+pub fn columnar_cipher(str: String, key: String, decrypt: bool) -> String {
     // Result string
     let mut result = String::new();
 
+    // Convert str into a vec of chars
+    let str_chars: Vec<char> = str.chars().collect();
+
+    // Convert key into a vec of nums
+    let mut vec = Vec::new();
+    for c in key.chars() {
+        vec.push(c as usize - '0' as usize);
+    }
+
     // Create a grid to store the text in
     let mut grid: Vec<Vec<char>> = Vec::new();
-    let rows: usize = str.len().div_ceil(key.len());
-    let cols: usize = key.len();
+    let rows: usize = str.len().div_ceil(vec.len());
+    let cols: usize = vec.len();
     for _ in 0..rows {
         let mut row: Vec<char> = Vec::new();
         for _ in 0..cols {
@@ -81,15 +80,14 @@ pub fn columnar_cipher(str: String, key: Vec<usize>, decrypt: bool) -> String {
         grid.push(row);
     }
 
-
     let mut index = 0;
     if decrypt {
         // Decryption
         let remainder = str.len() % cols;
-        for &c in &key {
+        for &c in &vec {
             let col_len = if remainder == 0 || c < remainder { rows } else { rows - 1 };
             for r in 0..col_len {
-                grid[r][c] = str.chars().nth(index).expect("OOB");
+                grid[r][c] = str_chars[index];
                 index += 1;
             }
         }
@@ -108,12 +106,12 @@ pub fn columnar_cipher(str: String, key: Vec<usize>, decrypt: bool) -> String {
                 if index >= str.len() {
                     break;
                 }
-                grid[r][c] = str.chars().nth(index).expect("OOB");
+                grid[r][c] = str_chars[index];
                 index += 1;
             }
         }
 
-        for c in key {
+        for c in vec {
             for r in 0..rows {
                 if grid[r][c] != '\0' {
                     result.push(grid[r][c]);
@@ -125,8 +123,22 @@ pub fn columnar_cipher(str: String, key: Vec<usize>, decrypt: bool) -> String {
     return result;
 }
 
-pub fn xor_cipher(str: String, decrypt: bool) -> String {
-    todo!()
+pub fn xor_cipher(str: String, key: String, _decrypt: bool) -> String {
+    // Result String
+    let mut result: String = String::new();
+
+    // Gathers all of the chars of key into a vec
+    let key_chars: Vec<char> = key.chars().collect();
+
+    // Performs the xor operation on each char in str
+    for (i, c) in str.chars().enumerate() {
+        // Grabs the key character associated with c; performs a modular loop if key.len() < str.len()
+        let key_c = key_chars[i % key_chars.len()];
+        // Bitwise XOR operation (from: https://doc.rust-lang.org/std/ops/trait.BitXor.html)
+        result.push(char::from_u32((c as u32) ^ (key_c as u32)).expect("Conversion Error"));
+    }
+
+    return result;
 }
 
 pub fn railfence_cipher(str: String, height: i32, decrypt: bool) -> String {

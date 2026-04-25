@@ -1,26 +1,12 @@
-   0.003687167s  INFO prepare_target{force=false package_id=encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt) target="columnar"}: cargo::core::compiler::fingerprint: fingerprint error for encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt)/Check { test: true }/TargetInner { kind: "test", name: "columnar", benched: false, ..: with_path("/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt/tests/columnar.rs", Edition2021) }
-   0.003707000s  INFO prepare_target{force=false package_id=encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt) target="columnar"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt/target/debug/.fingerprint/encrypt-68c0ce21c9524528/test-integration-test-columnar`
-
-Caused by:
-    No such file or directory (os error 2)
-
-Stack backtrace:
-   0: std::backtrace::Backtrace::create
-   1: cargo_util::paths::read_bytes
-   2: cargo_util::paths::read
-   3: cargo::core::compiler::fingerprint::_compare_old_fingerprint
-   4: cargo::core::compiler::fingerprint::prepare_target
-   5: cargo::core::compiler::compile
-   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
-   7: cargo::ops::cargo_compile::compile_ws
-   8: cargo::ops::cargo_compile::compile_with_exec
-   9: cargo::ops::cargo_compile::compile
-  10: cargo::commands::check::exec
-  11: <cargo::cli::Exec>::exec
-  12: cargo::main
-  13: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
-  14: std::rt::lang_start::<()>::{closure#0}
-  15: std::rt::lang_start_internal
-  16: _main
+   0.004651333s  INFO prepare_target{force=false package_id=encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt) target="encrypt"}: cargo::core::compiler::fingerprint: stale: changed "/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt/src/main.rs"
+   0.004668292s  INFO prepare_target{force=false package_id=encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt) target="encrypt"}: cargo::core::compiler::fingerprint:           (vs) "/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt/target/debug/.fingerprint/encrypt-18a732995e665bb4/dep-bin-encrypt"
+   0.004671833s  INFO prepare_target{force=false package_id=encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt) target="encrypt"}: cargo::core::compiler::fingerprint:                FileTime { seconds: 1777142793, nanos: 988977657 } < FileTime { seconds: 1777143072, nanos: 151947315 }
+   0.004717458s  INFO prepare_target{force=false package_id=encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt) target="encrypt"}: cargo::core::compiler::fingerprint: fingerprint dirty for encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt)/Check { test: false }/TargetInner { name: "encrypt", doc: true, ..: with_path("/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt/src/main.rs", Edition2021) }
+   0.004732500s  INFO prepare_target{force=false package_id=encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt) target="encrypt"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleItem(ChangedFile { reference: "/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt/target/debug/.fingerprint/encrypt-18a732995e665bb4/dep-bin-encrypt", reference_mtime: FileTime { seconds: 1777142793, nanos: 988977657 }, stale: "/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt/src/main.rs", stale_mtime: FileTime { seconds: 1777143072, nanos: 151947315 } }))
+   0.005018667s  INFO prepare_target{force=false package_id=encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt) target="encrypt"}: cargo::core::compiler::fingerprint: stale: changed "/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt/src/main.rs"
+   0.005022333s  INFO prepare_target{force=false package_id=encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt) target="encrypt"}: cargo::core::compiler::fingerprint:           (vs) "/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt/target/debug/.fingerprint/encrypt-5c480a6261dd0ec4/dep-test-bin-encrypt"
+   0.005024375s  INFO prepare_target{force=false package_id=encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt) target="encrypt"}: cargo::core::compiler::fingerprint:                FileTime { seconds: 1777142793, nanos: 988819991 } < FileTime { seconds: 1777143072, nanos: 151947315 }
+   0.005058958s  INFO prepare_target{force=false package_id=encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt) target="encrypt"}: cargo::core::compiler::fingerprint: fingerprint dirty for encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt)/Check { test: true }/TargetInner { name: "encrypt", doc: true, ..: with_path("/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt/src/main.rs", Edition2021) }
+   0.005063958s  INFO prepare_target{force=false package_id=encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt) target="encrypt"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleItem(ChangedFile { reference: "/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt/target/debug/.fingerprint/encrypt-5c480a6261dd0ec4/dep-test-bin-encrypt", reference_mtime: FileTime { seconds: 1777142793, nanos: 988819991 }, stale: "/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt/src/main.rs", stale_mtime: FileTime { seconds: 1777143072, nanos: 151947315 } }))
     Checking encrypt v0.1.0 (/Users/dawid/Desktop/College/Classes/cs128/HonorsSection/Project/encrypt)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
