@@ -141,6 +141,61 @@ pub fn xor_cipher(str: String, key: String, _decrypt: bool) -> String {
     return result;
 }
 
-pub fn railfence_cipher(str: String, height: i32, decrypt: bool) -> String {
-    todo!()
+pub fn railfence_cipher(text: String, height: i32, decrypt: bool) -> String {
+    if height <= 1 || text.is_empty() {
+        return text;
+    }
+    let h = height as usize;
+    let len = text.len();
+    let mut grid = vec![vec!['\n'; len]; h];
+    let mut row = 0;
+    let mut moving_down = false;
+    for col in 0..len {
+        grid[row][col] = '*';
+        if row == 0 || row == h - 1 {
+            moving_down = !moving_down;
+        }
+        if moving_down {
+            row += 1;
+        } else {
+            row -= 1;
+        }
+    }
+    let mut result = String::new();
+    if !decrypt {
+        let chars: Vec<char> = text.chars().collect();
+        for col in 0..len {
+            for r in 0..h {
+                if grid[r][col] == '*' {
+                    grid[r][col] = chars[col];
+                }
+            }
+        }
+        for r in 0..h {
+            for c in 0..len {
+                if grid[r][c] != '\n' && grid[r][c] != '*' {
+                    result.push(grid[r][c]);
+                }
+            }
+        }
+    } else {
+        let mut text_chars = text.chars();
+        for r in 0..h {
+            for c in 0..len {
+                if grid[r][c] == '*' {
+                    if let Some(ch) = text_chars.next() {
+                        grid[r][c] = ch;
+                    }
+                }
+            }
+        }
+        for c in 0..len {
+            for r in 0..h {
+                if grid[r][c] != '\n' && grid[r][c] != '*' {
+                    result.push(grid[r][c]);
+                }
+            }
+        }
+    }
+    result
 }
