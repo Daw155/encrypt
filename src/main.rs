@@ -3,11 +3,19 @@ use std::io::Read;
 use std::io::{self, Write};
 use encrypt::{caesar_cipher, vigenere_cipher, columnar_cipher, xor_cipher, railfence_cipher};
 
-pub fn read_file(file_name: String) -> String {
-    let mut file = File::open(file_name).expect("File not found.");
-    let mut contents = String::new();
-    file.read_to_string(&mut contents).expect("Failed to read file.");
-    return contents;
+pub fn read_file(mut file_name: String) -> String {
+    loop {
+        match File::open(&file_name) {
+            Ok(mut file) => {
+                let mut contents = String::new();
+                file.read_to_string(&mut contents).expect("Failed to read file.");
+                return contents;
+            }
+            Err(_) => {
+                file_name = prompt("File Not Found! Please enter new File Path: ");
+            }
+        }
+    }
 }
 
 fn prompt(label: &str) -> String {
