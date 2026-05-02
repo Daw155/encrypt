@@ -40,25 +40,49 @@ fn main() {
     let decrypt = mode.trim().to_uppercase().starts_with('D');
     let result = match choice.as_str() {
         "1" => {
-            let key_str = prompt("Enter shift amount: ");
-            caesar_cipher(text, key_str, decrypt)
+            loop {
+                let key_str = prompt("Enter shift amount: ");
+                match caesar_cipher(text.clone(), key_str, decrypt) {
+                    Ok(result) => break result,
+                    Err(e) => println!("Error: {}", e),
+                }
+            }
         },
         "2" => {
-            let key = prompt("Enter text key: ");
-            vigenere_cipher(text, key, decrypt)
+            loop {
+                let key = prompt("Enter text key: ");
+                match vigenere_cipher(text.clone(), key, decrypt) {
+                    Ok(result) => break result,
+                    Err(e) => println!("Error: {}", e),
+                }
+            }
         },
         "3" => {
-            let key = prompt("Enter text key: ");
-            columnar_cipher(text, key, decrypt)
+            loop {
+                let key = prompt("Enter text key: ");
+                match columnar_cipher(text.clone(), key, decrypt) {
+                    Ok(result) => break result,
+                    Err(e) => println!("Error: {}", e),
+                }
+            }
         },
         "4" => {
-            let key = prompt("Enter text key: ");
-            xor_cipher(text, key, decrypt)
+            loop {
+                let key = prompt("Enter text key: ");
+                match xor_cipher(text.clone(), key, decrypt) {
+                    Ok(result) => break result,
+                    Err(e) => println!("Error: {}", e),
+                }
+            }
         },
         "5" => {
-            let key_str = prompt("Enter height of fence: ");
-            let height: i32 = key_str.parse().unwrap_or(3);
-            railfence_cipher(text, height, decrypt)
+            loop {
+                let key_str = prompt("Enter height of fence: ");
+                match railfence_cipher(text.clone(), key_str, decrypt) {
+                    Ok(result) => break result,
+                    Err(e) => println!("Error: {}", e),
+                }
+            }
         },
         _ => {
             println!("Not a valid cipher :(");

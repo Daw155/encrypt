@@ -2,19 +2,14 @@ use encrypt::xor_cipher;
 
 #[test]
 fn test_xor_encrypt_basic() {
-    // 'A' ^ ' ' = 'a', 'B' ^ ' ' = 'b', 'C' ^ ' ' = 'c'
-    assert_eq!(
-        xor_cipher("ABC".to_string(), " ".to_string(), false),
-        "abc"
-    );
+    // Non-alphabetical key should return an error
+    assert!(xor_cipher("ABC".to_string(), " ".to_string(), false).is_err());
 }
 
 #[test]
 fn test_xor_decrypt_basic() {
-    assert_eq!(
-        xor_cipher("abc".to_string(), " ".to_string(), true),
-        "ABC"
-    );
+    // Non-alphabetical key should return an error
+    assert!(xor_cipher("abc".to_string(), " ".to_string(), true).is_err());
 }
 
 #[test]
@@ -22,8 +17,8 @@ fn test_xor_symmetric() {
     // XOR is its own inverse: encrypting twice returns the original
     let plaintext = "Hello, World!".to_string();
     let key = "secret".to_string();
-    let encrypted = xor_cipher(plaintext.clone(), key.clone(), false);
-    assert_eq!(xor_cipher(encrypted, key, true), plaintext);
+    let encrypted = xor_cipher(plaintext.clone(), key.clone(), false).unwrap();
+    assert_eq!(xor_cipher(encrypted, key, true).unwrap(), plaintext);
 }
 
 #[test]
@@ -32,8 +27,8 @@ fn test_xor_decrypt_flag_ignored() {
     let text = "Hello".to_string();
     let key = "key".to_string();
     assert_eq!(
-        xor_cipher(text.clone(), key.clone(), false),
-        xor_cipher(text, key, true)
+        xor_cipher(text.clone(), key.clone(), false).unwrap(),
+        xor_cipher(text, key, true).unwrap()
     );
 }
 
@@ -43,7 +38,7 @@ fn test_xor_key_cycles() {
     let plaintext = "ABCABC".to_string();
     let key = "ABC".to_string();
     assert_eq!(
-        xor_cipher(plaintext, key, false),
+        xor_cipher(plaintext, key, false).unwrap(),
         "\0\0\0\0\0\0"
     );
 }
@@ -53,14 +48,14 @@ fn test_xor_key_cycles_roundtrip() {
     // Key shorter than text should cycle and still roundtrip correctly
     let plaintext = "Hello World".to_string();
     let key = "ab".to_string();
-    let encrypted = xor_cipher(plaintext.clone(), key.clone(), false);
-    assert_eq!(xor_cipher(encrypted, key, false), plaintext);
+    let encrypted = xor_cipher(plaintext.clone(), key.clone(), false).unwrap();
+    assert_eq!(xor_cipher(encrypted, key, false).unwrap(), plaintext);
 }
 
 #[test]
 fn test_xor_empty_string() {
     assert_eq!(
-        xor_cipher("".to_string(), "key".to_string(), false),
+        xor_cipher("".to_string(), "key".to_string(), false).unwrap(),
         ""
     );
 }
@@ -69,5 +64,15 @@ fn test_xor_empty_string() {
 fn test_xor_single_char() {
     let plaintext = "A".to_string();
     let key = "A".to_string();
-    assert_eq!(xor_cipher(plaintext, key, false), "\0");
+    assert_eq!(xor_cipher(plaintext, key, false).unwrap(), "\0");
+}
+
+#[test]
+fn test_xor_empty_key() {
+    assert!(xor_cipher("hello".to_string(), "".to_string(), false).is_err());
+}
+
+#[test]
+fn test_xor_non_alpha_key() {
+    assert!(xor_cipher("hello".to_string(), "k3y".to_string(), false).is_err());
 }

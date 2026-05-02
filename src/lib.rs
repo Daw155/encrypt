@@ -1,13 +1,28 @@
-pub fn caesar_cipher(str: String, key: String, decrypt: bool) -> String {
+pub fn caesar_cipher(str: String, key: String, decrypt: bool) -> Result<String, String> {
+    // Error checking
+    if key.is_empty() {
+        return Err(String::from("Key cannot be empty"));
+    }
+    if key.parse::<i32>().is_err() {
+        return Err(format!("'{}' is not a valid integer", key));
+    }
+
+    // Parse shift and normalize to [0, 25]
     let shift = key.parse::<i32>().unwrap();
-    let mut result = String::new();
     let mut actual_shift = shift % 26;
     if actual_shift < 0 {
         actual_shift += 26;
     }
+
+    // Reverse the shift for decryption
     if decrypt {
         actual_shift = (26 - actual_shift) % 26;
     }
+
+    // Result string
+    let mut result = String::new();
+
+    // Shift each alphabetic character, leaving non-alphabetic characters unchanged
     for c in str.chars() {
         if c.is_ascii_lowercase() {
             let offset = c as u8 - ('a' as u8);
@@ -21,15 +36,29 @@ pub fn caesar_cipher(str: String, key: String, decrypt: bool) -> String {
             result.push(c);
         }
     }
-    
-    return result;
+    Ok(result)
 }
 
-pub fn vigenere_cipher(str: String, key: String, decrypt: bool) -> String { 
+pub fn vigenere_cipher(str: String, key: String, decrypt: bool) -> Result<String, String> {
+    // Error checking
+    if key.is_empty() {
+        return Err(String::from("Key cannot be empty"));
+    }
+    if !key.chars().all(|c| c.is_ascii_alphabetic()) {
+        return Err(String::from("Key must contain alphabetical characters only"));
+    }
+
+    // Result string
     let mut result = String::new();
+
+    // Normalize key to lowercase and collect into a vec of chars
     let lowercase_key = key.to_lowercase();
     let key_chars : Vec<char> = lowercase_key.chars().collect();
+
+    // Tracks position in the key; only advances on alphabetic characters
     let mut key_index = 0;
+
+    // Shift each alphabetic character using the repeating key, leaving others unchanged
     for c in str.chars() {
         if c.is_ascii_alphabetic() {
             let shift = (key_chars[key_index % key_chars.len()] as i32) - ('a' as i32);
@@ -52,10 +81,29 @@ pub fn vigenere_cipher(str: String, key: String, decrypt: bool) -> String {
         }
     }
 
-    return result;
+    Ok(result)
 }
 
-pub fn columnar_cipher(str: String, key: String, decrypt: bool) -> String {
+pub fn columnar_cipher(str: String, key: String, decrypt: bool) -> Result<String, String> {
+    // Error checking
+    if key.is_empty() {
+        return Err(String::from("Key cannot be empty"));
+    }
+    if !key.chars().all(|c| c.is_numeric()) {
+        return Err(String::from("Key must contain numerical characters only"));
+    }
+    let digits: Vec<usize> = key.chars().map(|c| c as usize - '0' as usize).collect();
+    if digits.iter().any(|&d| d >= key.len()) {
+        return Err(String::from("Each digit must be a valid column index (0 to key length - 1)"));
+    }
+    let mut seen = vec![false; key.len()];
+    for &d in &digits {
+        if seen[d] {
+            return Err(String::from("Key must not contain duplicate digits"));
+        }
+        seen[d] = true;
+    }
+
     // Result string
     let mut result = String::new();
 
@@ -120,10 +168,18 @@ pub fn columnar_cipher(str: String, key: String, decrypt: bool) -> String {
         }
     }
 
-    return result;
+    return Ok(result);
 }
 
-pub fn xor_cipher(str: String, key: String, _decrypt: bool) -> String {
+pub fn xor_cipher(str: String, key: String, _decrypt: bool) -> Result<String, String> {
+    // Error checking
+    if key.is_empty() {
+        return Err(String::from("Key cannot be empty"));
+    }
+    if !key.chars().all(|c| c.is_ascii_alphabetic()) {
+        return Err(String::from("Key must contain alphabetical characters only"));
+    }
+
     // Result String
     let mut result: String = String::new();
 
@@ -138,15 +194,27 @@ pub fn xor_cipher(str: String, key: String, _decrypt: bool) -> String {
         result.push(char::from_u32((c as u32) ^ (key_c as u32)).expect("Conversion Error"));
     }
 
-    return result;
+    return Ok(result);
 }
 
-pub fn railfence_cipher(text: String, height: i32, decrypt: bool) -> String {
-    if height <= 1 || text.is_empty() {
-        return text;
+pub fn railfence_cipher(str: String, key: String, decrypt: bool) -> Result<String, String> {
+    // Error checking
+    if key.is_empty() {
+        return Err(String::from("Key cannot be empty"));
     }
-    let h = height as usize;
-    let len = text.len();
+    if key.parse::<usize>().is_err() {
+        return Err(format!("'{}' is not a valid integer", key));
+    }
+
+    // Parse fence height; return input unchanged if height <= 1 or text is empty
+    let h = key.parse::<usize>().unwrap();
+    if h <= 1 || str.is_empty() {
+        return Ok(str);
+    }
+
+    let len = str.len();
+
+    // Create a grid and mark which cells are on the zigzag rail pattern
     let mut grid = vec![vec!['\n'; len]; h];
     let mut row = 0;
     let mut moving_down = false;
@@ -161,9 +229,13 @@ pub fn railfence_cipher(text: String, height: i32, decrypt: bool) -> String {
             row -= 1;
         }
     }
+
+    // Result string
     let mut result = String::new();
+
     if !decrypt {
-        let chars: Vec<char> = text.chars().collect();
+        // Encryption
+        let chars: Vec<char> = str.chars().collect();
         for col in 0..len {
             for r in 0..h {
                 if grid[r][col] == '*' {
@@ -179,7 +251,8 @@ pub fn railfence_cipher(text: String, height: i32, decrypt: bool) -> String {
             }
         }
     } else {
-        let mut text_chars = text.chars();
+        // Decryption
+        let mut text_chars = str.chars();
         for r in 0..h {
             for c in 0..len {
                 if grid[r][c] == '*' {
@@ -197,5 +270,5 @@ pub fn railfence_cipher(text: String, height: i32, decrypt: bool) -> String {
             }
         }
     }
-    result
+    return Ok(result);
 }
