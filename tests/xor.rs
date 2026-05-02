@@ -23,13 +23,11 @@ fn test_xor_symmetric() {
 
 #[test]
 fn test_xor_decrypt_flag_ignored() {
-    // The decrypt flag has no effect since XOR is symmetric
-    let text = "Hello".to_string();
+    // Encrypting then decrypting returns the original
+    let plaintext = "Hello".to_string();
     let key = "key".to_string();
-    assert_eq!(
-        xor_cipher(text.clone(), key.clone(), false).unwrap(),
-        xor_cipher(text, key, true).unwrap()
-    );
+    let encrypted = xor_cipher(plaintext.clone(), key.clone(), false).unwrap();
+    assert_eq!(xor_cipher(encrypted, key, true).unwrap(), plaintext);
 }
 
 #[test]
@@ -37,9 +35,10 @@ fn test_xor_key_cycles() {
     // XOR with itself produces all null bytes
     let plaintext = "ABCABC".to_string();
     let key = "ABC".to_string();
+    // Encrypted output is base64 of null bytes
     assert_eq!(
         xor_cipher(plaintext, key, false).unwrap(),
-        "\0\0\0\0\0\0"
+        "AAAAAAAA"
     );
 }
 
@@ -49,7 +48,7 @@ fn test_xor_key_cycles_roundtrip() {
     let plaintext = "Hello World".to_string();
     let key = "ab".to_string();
     let encrypted = xor_cipher(plaintext.clone(), key.clone(), false).unwrap();
-    assert_eq!(xor_cipher(encrypted, key, false).unwrap(), plaintext);
+    assert_eq!(xor_cipher(encrypted, key, true).unwrap(), plaintext);
 }
 
 #[test]
@@ -64,7 +63,8 @@ fn test_xor_empty_string() {
 fn test_xor_single_char() {
     let plaintext = "A".to_string();
     let key = "A".to_string();
-    assert_eq!(xor_cipher(plaintext, key, false).unwrap(), "\0");
+    // Encrypted output is base64 of a null byte
+    assert_eq!(xor_cipher(plaintext, key, false).unwrap(), "AA==");
 }
 
 #[test]

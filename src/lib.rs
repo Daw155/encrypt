@@ -1,3 +1,5 @@
+use base64::Engine;
+
 pub fn caesar_cipher(str: String, key: String, decrypt: bool) -> Result<String, String> {
     // Error checking
     if key.is_empty() {
@@ -174,7 +176,7 @@ pub fn columnar_cipher(str: String, key: String, decrypt: bool) -> Result<String
     return Ok(result);
 }
 
-pub fn xor_cipher(str: String, key: String, _decrypt: bool) -> Result<String, String> {
+pub fn xor_cipher(str: String, key: String, decrypt: bool) -> Result<String, String> {
     // Error checking
     if key.is_empty() {
         return Err(String::from("Key cannot be empty"));
@@ -183,21 +185,21 @@ pub fn xor_cipher(str: String, key: String, _decrypt: bool) -> Result<String, St
         return Err(String::from("Key must contain alphabetical characters only"));
     }
 
-    // Result String
-    let mut result: String = String::new();
+    // Gathers all of the bytes of key into a vec
+    let key_bytes: Vec<u8> = key.bytes().collect();
 
-    // Gathers all of the chars of key into a vec
-    let key_chars: Vec<char> = key.chars().collect();
-
-    // Performs the xor operation on each char in str
-    for (i, c) in str.chars().enumerate() {
-        // Grabs the key character associated with c; performs a modular loop if key.len() < str.len()
-        let key_c = key_chars[i % key_chars.len()];
-        // Bitwise XOR operation (from: https://doc.rust-lang.org/std/ops/trait.BitXor.html)
-        result.push(char::from_u32((c as u32) ^ (key_c as u32)).expect("Conversion Error"));
+    if decrypt {
+        // Decode base64 back to raw bytes, then XOR to recover the original text
+        let bytes = base64::engine::general_purpose::STANDARD
+            .decode(&str)
+            .map_err(|_| String::from("Input is not valid base64"))?;
+        let xored: Vec<u8> = bytes.iter().enumerate().map(|(i, b)| b ^ key_bytes[i % key_bytes.len()]).collect();
+        String::from_utf8(xored).map_err(|_| String::from("Decrypted bytes are not valid UTF-8"))
+    } else {
+        // XOR each byte with the repeating key, then base64-encode so the output is printable
+        let xored: Vec<u8> = str.bytes().enumerate().map(|(i, b)| b ^ key_bytes[i % key_bytes.len()]).collect();
+        Ok(base64::engine::general_purpose::STANDARD.encode(&xored))
     }
-
-    return Ok(result);
 }
 
 pub fn railfence_cipher(str: String, key: String, decrypt: bool) -> Result<String, String> {
