@@ -16,10 +16,10 @@
 
    cargo run -- -t "hello, world!" -c railfence -k 2
 
-   -t is for the text you want to encrypt or decrypt
-   -f is for the file you want to encrypt or decrypt
-   -c is for the cipher you want to use
-   -k is for the key you want to use
-   -d is for decrypt (optional, if not included, it will encrypt)
+   * `-t`: The text you want to encrypt or decrypt
+   * `-f`: The file you want to encrypt or decrypt (use instead of `-t`)
+   * `-c`: The cipher you want to use (caesar, vigenere, columnar, xor, railfence)
+   * `-k`: The key or shift amount you want to use
+   * `-d`: Flag to decrypt (optional, if not included, it will encrypt)
 
 4. Follow the prompts in the terminal to choose a cipher, input text or a file path, and a key to perform the encryption or decryption.
