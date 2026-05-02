@@ -111,13 +111,13 @@ fn cli_mode(matches: clap::ArgMatches) {
         "vigenere" => vigenere_cipher(text, key, decrypt),
         "columnar" => columnar_cipher(text, key, decrypt),
         "xor" => xor_cipher(text, key, decrypt),
-        "railfence" => {
-            let height: i32 = key.parse().unwrap_or(3);
-            railfence_cipher(text, height, decrypt)
-        }
+        "railfence" => railfence_cipher(text, key, decrypt),
         _ => unreachable!("Invalid cipher"),
     };
-    println!("{}", result);
+    match result {
+        Ok(output) => println!("{}", output),
+        Err(e) => println!("Error: {}", e),
+    }
 }
 
 fn main() {
