@@ -15,7 +15,6 @@ File reading, learning new algorithms, learning how to package our code, figurin
 - Implement several encryption algorithms
 - Build a file reading CLI that can use these algorithms
 - Export our program as a Rust crate
-- Create a simple frontend UI that uses our Rust crate if time permits
 
 ## Technical Overview
 - CLI Interface with file input and output
@@ -26,7 +25,6 @@ File reading, learning new algorithms, learning how to package our code, figurin
 - XOR Cipher: Applies a bitwise XOR operation to each character in the string
 - Rail Wise Cipher: Encrypts a message with a zig-zag pattern with a set height
 - Package our encryption class as a crate
-- Frontend UI (using HTML, CSS, JS)  with a dropdown for picking encryption algorithm, textbox for input, and read-only textbox for output. Encryption uses our rust crate.
 
 ## Checkpoint Goals
 By checkpoint #1: Set up file reader and finish 2 of the encryption algorithms
