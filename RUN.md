@@ -14,7 +14,7 @@
 
    or
 
-   cargo run -- -t "hello, world!" -c railfence -k 2
+   cargo run -- -t 'hello, world!' -c railfence -k 2
 
    * `-t`: The text you want to encrypt or decrypt
    * `-f`: The file you want to encrypt or decrypt (use instead of `-t`)
