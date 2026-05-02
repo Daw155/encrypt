@@ -1,5 +1,6 @@
 use base64::Engine;
 
+// https://en.wikipedia.org/wiki/Caesar_cipher
 pub fn caesar_cipher(str: String, key: String, decrypt: bool) -> Result<String, String> {
     // Error checking
     if key.is_empty() {
@@ -41,6 +42,7 @@ pub fn caesar_cipher(str: String, key: String, decrypt: bool) -> Result<String, 
     Ok(result)
 }
 
+// https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher
 pub fn vigenere_cipher(str: String, key: String, decrypt: bool) -> Result<String, String> {
     // Error checking
     if key.is_empty() {
@@ -89,6 +91,7 @@ pub fn vigenere_cipher(str: String, key: String, decrypt: bool) -> Result<String
     Ok(result)
 }
 
+// https://en.wikipedia.org/wiki/Transposition_cipher
 pub fn columnar_cipher(str: String, key: String, decrypt: bool) -> Result<String, String> {
     // Error checking
     if key.is_empty() {
@@ -176,6 +179,7 @@ pub fn columnar_cipher(str: String, key: String, decrypt: bool) -> Result<String
     return Ok(result);
 }
 
+// https://en.wikipedia.org/wiki/XOR_cipher
 pub fn xor_cipher(str: String, key: String, decrypt: bool) -> Result<String, String> {
     // Error checking
     if key.is_empty() {
@@ -202,6 +206,7 @@ pub fn xor_cipher(str: String, key: String, decrypt: bool) -> Result<String, Str
     }
 }
 
+// https://en.wikipedia.org/wiki/Rail_fence_cipher
 pub fn railfence_cipher(str: String, key: String, decrypt: bool) -> Result<String, String> {
     // Error checking
     if key.is_empty() {
